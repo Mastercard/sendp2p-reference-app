@@ -1,0 +1,2253 @@
+
+swagger: "2.0"
+info: 
+   version: V1
+   title: Send Person to Person
+   x-artifactId: p2p
+host: api.mastercard.com
+tags: 
+- 
+   name: Payment Transfer
+schemes: 
+- https
+paths: 
+   /send/v1/partners/{partnerId}/transfers/payment: 
+      post: 
+         tags: 
+         - Payment Transfer
+         description: 'This resource will allow a partner to request a Person to Person transfer payment. '
+         summary: 'This resource will allow a partner to request a Person to Person transfer payment. '
+         operationId: createPayment
+         consumes: 
+         - application/xml
+         - application/json
+         produces: 
+         - application/xml
+         - application/json
+         parameters: 
+         - 
+            in: path
+            name: partnerId
+            description: Path Param - Provider assigned partner id. Details - string, 32
+            required: true
+            type: string
+         - 
+            in: body
+            name: payment_transfer
+            description: Contains the details of the request message.
+            required: false
+            schema: 
+               $ref: '#/definitions/PaymentTransfer_wrapper'
+         responses: 
+            200: 
+               description: Response details
+               schema: 
+                  $ref: '#/definitions/Transfer_wrapper'
+         x-testable: false
+         x-samples: 
+         - 
+            name: CreatePayment_NON_TOKENIZED
+            ordering: 301
+            ignoreAsserts: 
+            - transfer.transfer_reference
+            - transfer.statement_descriptor
+            - transfer.id
+            - transfer.created
+            - transfer.transaction_history.data.transaction[0].id
+            - transfer.transaction_history.data.transaction[0].create_timestamp
+            - transfer.transaction_history.data.transaction[0].status_timestamp
+            - transfer.transaction_history.data.transaction[0].network
+            - transfer.transaction_history.data.transaction[0].funds_availability
+            - transfer.status_timestamp
+            - transfer.transaction_history.data.transaction[0].retrieval_reference
+            - transfer.transaction_history.data.transaction[0].system_trace_audit_number
+            - transfer.sender.email
+            - transfer.recipient.email
+            - transfer.sender.government_ids
+            - transfer.sender.government_ids.government_id_uri[0]
+            - transfer.recipient.government_ids
+            - transfer.recipient.government_ids.government_id_uri[0]
+            - transfer.original_status
+            - transfer.sender.sanction_score
+            - transfer.recipient.sanction_score
+            - transfer.transaction_history.data.transaction[0].status
+            - transfer.transaction_history.data.transaction[0].status_reason
+            - transfer.original_status
+            - transfer.status
+            overrides: 
+            - 
+               payment_transfer.statement_descriptor: val:CLA*THANK YOU
+            request: 
+               application/json: |
+                  {
+                    "partnerId": "ptnr_BEeCrYJHh2BXTXPy_PEtp-8DBOo",
+                    "payment_transfer": {
+                      "transfer_reference": "PAYMENT1_@remember-integer[6]@",
+                      "payment_type": "P2P",
+                      "funding_source": "CREDIT",
+                      "amount": "1800",
+                      "currency": "USD",
+                      "sender_account_uri": "pan:5013040000000018;exp=2099-08;cvc=123",
+                      "sender": {
+                        "first_name": "John",
+                        "middle_name": "Tyler",
+                        "last_name": "Jones",
+                        "nationality": "USA",
+                        "date_of_birth": "1994-05-21",
+                        "address": {
+                          "line1": "21 Broadway",
+                          "line2": "Apartment A-6",
+                          "city": "OFallon",
+                          "country_subdivision": "MO",
+                          "postal_code": "63368",
+                          "country": "USA"
+                        },
+                        "phone": "11234565555",
+                        "email": "John.Jones123@abcmail.com",
+                        "government_ids": {
+                          "government_id_uri": [
+                            "ppn:123456789;expiration-date=2019-05-27;issue-date=2011-07-12;issuing-country=USA;issuing-place=OFallon"
+                          ]
+                        }
+                      },
+                      "recipient_account_uri": "pan:5013040000000018;exp=2099-08;cvc=123",
+                      "recipient": {
+                        "first_name": "Jane",
+                        "middle_name": "Tyler",
+                        "last_name": "Smith",
+                        "nationality": "USA",
+                        "date_of_birth": "1999-12-30",
+                        "name_on_account": "Jane Smith",
+                        "address": {
+                          "line1": "1 Main St",
+                          "line2": "Apartment 9",
+                          "city": "OFallon",
+                          "country_subdivision": "MO",
+                          "postal_code": "63368",
+                          "country": "USA"
+                        },
+                        "phone": "11234567890",
+                        "email": "John.Jones123@abcmail.com",
+                        "government_ids": {
+                          "government_id_uri": [
+                            "ppn:123456789;expiration-date=2019-05-27;issue-date=2011-07-12;issuing-country=USA;issuing-place=OFallon"
+                          ]
+                        }
+                      },
+                      "payment_origination_country": "USA",
+                      "sanction_screening_override": "true",
+                      "reconciliation_data": {
+                        "custom_field": [
+                          {
+                            "name": "ABC",
+                            "value": "123"
+                          },
+                          {
+                            "name": "DEF",
+                            "value": "456"
+                          },
+                          {
+                            "name": "GHI",
+                            "value": "789"
+                          }
+                        ]
+                      },
+                      "authentication": {
+                        "authentication_value": "ucaf: jJJLtQa+Iws8AREAEbjsA1MAAAA"
+                      },
+                      "statement_descriptor": "TST*THANKYOU",
+                      "participant": {
+                        "merchant_category_code": "4121",
+                        "card_acceptor_id": "CardAcceptor123",
+                        "customer_service_contact_info": "18005559999"
+                      },
+                      "channel": "KIOSK"
+                    }
+                  }
+            response: 
+               application/json: |
+                  {
+                    "transfer": {
+                      "id": "trn_MQTGry0D_TGe8QTrWj4LtaydUUWM",
+                      "resource_type": "transfer",
+                      "transfer_reference": "PAYMENT1_@remember-integer[6]@",
+                      "payment_type": "P2P",
+                      "sender_account_uri": "pan:************0018",
+                      "sender": {
+                        "first_name": "John",
+                        "middle_name": "Tyler",
+                        "last_name": "Jones",
+                        "nationality": "USA",
+                        "date_of_birth": "1994-05-21",
+                        "address": {
+                          "line1": "21 Broadway",
+                          "line2": "Apartment A-6",
+                          "city": "OFallon",
+                          "country_subdivision": "MO",
+                          "postal_code": "63368",
+                          "country": "USA"
+                        },
+                        "phone": "11234565555",
+                        "email": "John.Jones123@abcmail.com",
+                        "government_ids": {
+                          "government_id_uri": [
+                            "ppn:*****6789;expiration-date=2019-05-27;issue-date=2011-07-12;issuing-country=USA;issuing-place=OFallon"
+                          ]
+                        },
+                        "sanction_score": "20"
+                      },
+                      "recipient_account_uri": "pan:************0018",
+                      "recipient": {
+                        "first_name": "Jane",
+                        "middle_name": "Tyler",
+                        "last_name": "Smith",
+                        "nationality": "USA",
+                        "date_of_birth": "1999-12-30",
+                        "address": {
+                          "line1": "1 Main St",
+                          "line2": "Apartment 9",
+                          "city": "OFallon",
+                          "country_subdivision": "MO",
+                          "postal_code": "63368",
+                          "country": "USA"
+                        },
+                        "phone": "11234567890",
+                        "email": "John.Jones123@abcmail.com",
+                        "government_ids": {
+                          "government_id_uri": [
+                            "ppn:*****6789;expiration-date=2019-05-27;issue-date=2011-07-12;issuing-country=USA;issuing-place=OFallon"
+                          ]
+                        },
+                        "sanction_score": "20"
+                      },
+                      "transfer_amount": {
+                        "value": "1800",
+                        "currency": "USD"
+                      },
+                      "created": "2016-08-29T01:07:37-05:00",
+                      "transaction_history": {
+                        "resource_type": "list",
+                        "item_count": "1",
+                        "data": {
+                          "transaction": [
+                            {
+                              "id": "txn_SVDvtQk1mKcJefExHKpvVeLctXvJ",
+                              "resource_type": "transaction",
+                              "account_uri": "pan:************0018",
+                              "transaction_amount": {
+                                "value": "1800",
+                                "currency": "USD"
+                              },
+                              "network": "STAR",
+                              "funds_availability": "IMMEDIATE",
+                              "type": "PAYMENT",
+                              "create_timestamp": "2016-08-29T01:07:37-05:00",
+                              "status": "APPROVED",
+                              "status_reason": "APPROVED",
+                              "status_timestamp": "2016-08-29T01:07:37-05:00",
+                              "retrieval_reference": "624200192616",
+                              "system_trace_audit_number": "926162"
+                            }
+                          ]
+                        }
+                      },
+                      "reconciliation_data": {
+                        "custom_field": [
+                          {
+                            "name": "ABC",
+                            "value": "123"
+                          },
+                          {
+                            "name": "DEF",
+                            "value": "456"
+                          },
+                          {
+                            "name": "GHI",
+                            "value": "789"
+                          }
+                        ]
+                      },
+                      "statement_descriptor": "TST*THANKYOU",
+                      "participant": {
+                        "merchant_category_code": "4121",
+                        "card_acceptor_id": "CardAcceptor123",
+                        "customer_service_contact_info": "18005559999"
+                      },
+                      "channel": "KIOSK",
+                      "original_status": "APPROVED",
+                      "status": "APPROVED",
+                      "status_timestamp": "2016-08-29T01:07:37-05:00"
+                    }
+                  }
+         - 
+            name: CreatePayment_TOKENIZED
+            ordering: 302
+            ignoreAsserts: 
+            - transfer.id
+            - transfer.created
+            - transfer.transaction_history.data.transaction[0].id
+            - transfer.transaction_history.data.transaction[0].create_timestamp
+            - transfer.transaction_history.data.transaction[0].status_timestamp
+            - transfer.transaction_history.data.transaction[0].network
+            - transfer.transaction_history.data.transaction[0].funds_availability
+            - transfer.status_timestamp
+            - transfer.sender.email
+            - transfer.recipient.email
+            - transfer.transaction_history.data.transaction[0].retrieval_reference
+            - transfer.transaction_history.data.transaction[0].system_trace_audit_number
+            - transfer.sender_account_uri
+            - transfer.statement_descriptor
+            - transfer.sender.government_ids
+            - transfer.sender.government_ids.government_id_uri[0]
+            - transfer.recipient.government_ids
+            - transfer.recipient.government_ids.government_id_uri[0]
+            - transfer.original_status
+            - transfer.sender.sanction_score
+            - transfer.recipient.sanction_score
+            - transfer.participant.merchant_category_code
+            - transfer.participant.card_acceptor_id
+            - transfer.participant.customer_service_contact_info
+            - transfer.faster_payments_id
+            - transfer.payment_uid
+            - transfer.transaction_history.data.transaction[0].status
+            - transfer.transaction_history.data.transaction[0].status_reason
+            - transfer.original_status
+            - transfer.status
+            overrides: 
+            - 
+               payment_transfer.statement_descriptor: val:CLA*THANK YOU
+            request: 
+               application/json: |
+                  {
+                    "partnerId": "ptnr_BEeCrYJHh2BXTXPy_PEtp-8DBOo",
+                    "payment_transfer": {
+                      "transfer_reference": "PAYMENT2_@remember-integer[6]@",
+                      "payment_type": "P2P",
+                      "funding_source": "CREDIT",
+                      "amount": "1800",
+                      "currency": "USD",
+                      "sender_account_uri": "acct-ref:ref_252214256960742038244864326043630326",
+                      "sender": {
+                        "first_name": "John",
+                        "middle_name": "Tyler",
+                        "last_name": "Jones",
+                        "nationality": "USA",
+                        "date_of_birth": "1994-05-21",
+                        "address": {
+                          "line1": "21 Broadway",
+                          "line2": "Apartment A-6",
+                          "city": "OFallon",
+                          "country_subdivision": "MO",
+                          "postal_code": "63368",
+                          "country": "USA"
+                        },
+                        "phone": "11234565555",
+                        "email": "John.Jones123@abcmail.com",
+                        "government_ids": {
+                          "government_id_uri": [
+                            "ppn:123456789;expiration-date=2019-05-27;issue-date=2011-07-12;issuing-country=USA;issuing-place=OFallon"
+                          ]
+                        }
+                      },
+                      "recipient_account_uri": "pan:5013040000000018;exp=2099-08;cvc=123",
+                      "recipient": {
+                        "first_name": "Jane",
+                        "middle_name": "Tyler",
+                        "last_name": "Smith",
+                        "nationality": "USA",
+                        "date_of_birth": "1999-12-30",
+                        "name_on_account": "Jane Smith",
+                        "address": {
+                          "line1": "1 Main St",
+                          "line2": "Apartment 9",
+                          "city": "OFallon",
+                          "country_subdivision": "MO",
+                          "postal_code": "63368",
+                          "country": "USA"
+                        },
+                        "phone": "11234567890",
+                        "email": "Jane.Smith123@abcmail.com",
+                        "government_ids": {
+                          "government_id_uri": [
+                            "ppn:123456789;expiration-date=2019-05-27;issue-date=2011-07-12;issuing-country=USA;issuing-place=OFallon"
+                          ]
+                        }
+                      },
+                      "payment_origination_country": "USA",
+                      "token_cryptogram": {
+                        "type": "CONTACTLESS_CHIP",
+                        "value": "jjoutwsdgfdou124354ljlsdhgout968957"
+                      },
+                      "authentication": {
+                        "authentication_value": "ucaf: jJJLtQa+Iws8AREAEbjsA1MAAAA"
+                      },
+                      "sanction_screening_override": "true",
+                      "reconciliation_data": {
+                        "custom_field": [
+                          {
+                            "name": "ABC",
+                            "value": "123"
+                          },
+                          {
+                            "name": "DEF",
+                            "value": "456"
+                          },
+                          {
+                            "name": "GHI",
+                            "value": "789"
+                          }
+                        ]
+                      },
+                      "statement_descriptor": "TST*THANKYOU",
+                      "participant": {
+                        "merchant_category_code": "4121",
+                        "card_acceptor_id": "CardAcceptor123",
+                        "customer_service_contact_info": "18005559999"
+                      },
+                      "channel": "KIOSK",
+                      "transfer_priority": "SIP"
+                    }
+                  }
+            response: 
+               application/json: |
+                  {
+                    "transfer": {
+                      "id": "trn_4MMUC7147Vamd1IVt77DV0d-mIZr",
+                      "resource_type": "transfer",
+                      "transfer_reference": "PAYMENT2_@remember-integer[6]@",
+                      "payment_type": "P2P",
+                      "sender_account_uri": "acct-ref:ref_252214256960742038244864326043630326",
+                      "sender": {
+                        "first_name": "John",
+                        "middle_name": "Tyler",
+                        "last_name": "Jones",
+                        "nationality": "USA",
+                        "date_of_birth": "1994-05-21",
+                        "address": {
+                          "line1": "21 Broadway",
+                          "line2": "Apartment A-6",
+                          "city": "OFallon",
+                          "country_subdivision": "MO",
+                          "postal_code": "63368",
+                          "country": "USA"
+                        },
+                        "phone": "11234565555",
+                        "email": "John.Jones123@abcmail.com",
+                        "government_ids": {
+                          "government_id_uri": [
+                            "ppn:*****6789;expiration-date=2019-05-27;issue-date=2011-07-12;issuing-country=USA;issuing-place=OFallon"
+                          ]
+                        },
+                        "sanction_score": "20"
+                      },
+                      "recipient_account_uri": "pan:************0018",
+                      "recipient": {
+                        "first_name": "Jane",
+                        "middle_name": "Tyler",
+                        "last_name": "Smith",
+                        "nationality": "USA",
+                        "date_of_birth": "1999-12-30",
+                        "address": {
+                          "line1": "1 Main St",
+                          "line2": "Apartment 9",
+                          "city": "OFallon",
+                          "country_subdivision": "MO",
+                          "postal_code": "63368",
+                          "country": "USA"
+                        },
+                        "phone": "11234567890",
+                        "email": "Jane.Smith123@abcmail.com",
+                        "name_on_account": "Jane Smith",
+                        "government_ids": {
+                          "government_id_uri": [
+                            "ppn:*****6789;expiration-date=2019-05-27;issue-date=2011-07-12;issuing-country=USA;issuing-place=OFallon"
+                          ]
+                        },
+                        "sanction_score": "20"
+                      },
+                      "transfer_amount": {
+                        "value": "1800",
+                        "currency": "USD"
+                      },
+                      "created": "2016-08-29T01:11:02-05:00",
+                      "transaction_history": {
+                        "resource_type": "list",
+                        "item_count": "1",
+                        "data": {
+                          "transaction": [
+                            {
+                              "id": "txn_S7hjCOKzzkSzeCTS7g-Fdq0_drCD",
+                              "resource_type": "transaction",
+                              "account_uri": "pan:************0018",
+                              "transaction_amount": {
+                                "value": "1800",
+                                "currency": "USD"
+                              },
+                              "network": "STAR",
+                              "funds_availability": "IMMEDIATE",
+                              "type": "PAYMENT",
+                              "create_timestamp": "2016-08-29T01:11:02-05:00",
+                              "status": "APPROVED",
+                              "status_reason": "APPROVED",
+                              "status_timestamp": "2016-08-29T01:11:02-05:00",
+                              "retrieval_reference": "624200192616",
+                              "system_trace_audit_number": "926162"
+                            }
+                          ]
+                        }
+                      },
+                      "reconciliation_data": {
+                        "custom_field": [
+                          {
+                            "name": "ABC",
+                            "value": "123"
+                          },
+                          {
+                            "name": "DEF",
+                            "value": "456"
+                          },
+                          {
+                            "name": "GHI",
+                            "value": "789"
+                          }
+                        ]
+                      },
+                      "statement_descriptor": "TST*THANKYOU",
+                      "participant": {
+                        "merchant_category_code": "4121",
+                        "card_acceptor_id": "CardAcceptor123",
+                        "customer_service_contact_info": "18005559999"
+                      },
+                      "channel": "KIOSK",
+                      "transfer_priority": "SIP",
+                      "faster_payments_id": "YE78126Q54WK2J06M33020170720826608371",
+                      "payment_uid": "32e2f3f9-dee4-4d10-a470-3dfa01dbf118",
+                      "original_status": "APPROVED",
+                      "status": "APPROVED",
+                      "status_timestamp": "2016-08-29T01:11:02-05:00"
+                    }
+                  }
+         - 
+            name: CreatePaymentFasterPaymentsService
+            ordering: 303
+            ignoreAsserts: 
+            - transfer.transfer_reference
+            - transfer.id
+            - transfer.statement_descriptor
+            - transfer.created
+            - transfer.transaction_history.data.transaction[0].id
+            - transfer.transaction_history.data.transaction[0].create_timestamp
+            - transfer.transaction_history.data.transaction[0].status_timestamp
+            - transfer.status_timestamp
+            - transfer.transaction_history.data.transaction[0].retrieval_reference
+            - transfer.transaction_history.data.transaction[0].system_trace_audit_number
+            - transfer.sender.email
+            - transfer.recipient.email
+            - transfer.sender.government_ids
+            - transfer.sender.government_ids.government_id_uri[0]
+            - transfer.recipient.government_ids
+            - transfer.recipient.government_ids.government_id_uri[0]
+            - transfer.original_status
+            - transfer.sender.sanction_score
+            - transfer.recipient.sanction_score
+            - transfer.participant.merchant_category_code
+            - transfer.participant.card_acceptor_id
+            - transfer.participant.customer_service_contact_info
+            - transfer.faster_payments_id
+            - transfer.payment_uid
+            request: 
+               application/json: |
+                  {
+                    "partnerId":"ptnr_5oYn4lC5_q4C4R-m42i9DYtE7Ci",
+                    "payment_transfer": {
+                      "transfer_reference": "PAYMENTFPS_@remember-integer[6]@",
+                      "funding_source": "PREPAID",
+                      "payment_type": "P2P",
+                      "amount": "101",
+                      "sender_account_uri": "iban:GB38STLG60161311223344",
+                      "currency": "GBP",
+                      "sender": {
+                        "first_name": "John",
+                        "middle_name": "Tyler",
+                        "last_name": "Jones",
+                        "nationality": "USA",
+                        "date_of_birth": "1994-05-21",
+                        "address": {
+                          "line1": "21 Broadway",
+                          "line2": "Apartment A-6",
+                          "city": "OFallon",
+                          "country_subdivision": "MO",
+                          "postal_code": "63368",
+                          "country": "USA"
+                        },
+                        "phone": "11234565555",
+                        "email": "John.Jones123@abcmail.com"
+                      },
+                      "recipient_account_uri": "iban:GB25BARC20300200004588",
+                      "recipient": {
+                        "first_name": "Jane",
+                        "middle_name": "Tyler",
+                        "last_name": "Smith",
+                        "nationality": "USA",
+                        "date_of_birth": "1999-12-30",
+                     "name_on_account": "Jane Smith",
+                        "address": {
+                          "line1": "1 Main St",
+                          "line2": "Apartment 9",
+                          "city": "OFallon",
+                          "country_subdivision": "MO",
+                          "postal_code": "63368",
+                          "country": "USA"
+                        },
+                        "phone": "11234567890",
+                        "email": "Jane.Smith123@abcmail.com"
+                      },
+                      "reconciliation_data": {
+                        "custom_field": [
+                          {
+                            "name": "field1",
+                            "value": "123"
+                          },
+                          {
+                            "name": "field2",
+                            "value": "456"
+                          },
+                          {
+                            "name": "field3",
+                            "value": "789"
+                          }
+                        ]
+                      },
+                      "transfer_priority": "FDP",
+                      "statement_descriptor": "FPS*TEST",
+                      "channel": "KIOSK",
+                      "device_id": "DEVICE-1234",
+                      "location": "state:MO"
+                  }
+                  }
+            response: 
+               application/json: |
+                  {
+                    "transfer": {
+                      "id": "trn_MQTGry0D_TGe8QTrWj4LtaydUUWM",
+                      "resource_type": "transfer",
+                      "transfer_reference": "PAYMENTFPS_@remember-integer[6]@",
+                      "payment_type": "P2P",
+                      "sender_account_uri": "iban:GB38STLG60161311223344",
+                      "sender": {
+                        "first_name": "John",
+                        "middle_name": "Tyler",
+                        "last_name": "Jones",
+                        "nationality": "USA",
+                        "date_of_birth": "1994-05-21",
+                        "address": {
+                          "line1": "21 Broadway",
+                          "line2": "Apartment A-6",
+                          "city": "OFallon",
+                          "country_subdivision": "MO",
+                          "postal_code": "63368",
+                          "country": "USA"
+                        },
+                        "phone": "11234565555",
+                        "email": "John.Jones123@abcmail.com",
+                        "government_ids": {
+                          "government_id_uri": [
+                            "ppn:*****6789;expiration-date=2019-05-27;issue-date=2011-07-12;issuing-country=USA;issuing-place=OFallon"
+                          ]
+                        },
+                        "sanction_score": "20"
+                      },
+                      "recipient_account_uri": "iban:GB25BARC20300200004588",
+                      "recipient": {
+                        "first_name": "Jane",
+                        "middle_name": "Tyler",
+                        "last_name": "Smith",
+                        "nationality": "USA",
+                        "date_of_birth": "1999-12-30",
+                        "address": {
+                          "line1": "1 Main St",
+                          "line2": "Apartment 9",
+                          "city": "OFallon",
+                          "country_subdivision": "MO",
+                          "postal_code": "63368",
+                          "country": "USA"
+                        },
+                        "phone": "11234567890",
+                        "email": "John.Jones123@abcmail.com",
+                        "government_ids": {
+                          "government_id_uri": [
+                            "ppn:*****6789;expiration-date=2019-05-27;issue-date=2011-07-12;issuing-country=USA;issuing-place=OFallon"
+                          ]
+                        },
+                        "sanction_score": "20"
+                      },
+                      "transfer_amount": {
+                        "value": "101",
+                        "currency": "GBP"
+                      },
+                      "created": "2016-08-29T01:07:37-05:00",
+                      "transaction_history": {
+                        "resource_type": "list",
+                        "item_count": "1",
+                        "data": {
+                          "transaction": [
+                            {
+                              "id": "txn_SVDvtQk1mKcJefExHKpvVeLctXvJ",
+                              "resource_type": "transaction",
+                              "account_uri": "iban:GB25BARC20300200004588",
+                              "transaction_amount": {
+                                "value": "101",
+                                "currency": "GBP"
+                              },
+                              "network": "FPS_OUTBOUND",
+                              "funds_availability": "IMMEDIATE",
+                              "type": "PAYMENT",
+                              "create_timestamp": "2016-08-29T01:07:37-05:00",
+                              "status": "APPROVED",
+                              "status_reason": "APPROVED",
+                              "status_timestamp": "2016-08-29T01:07:37-05:00",
+                              "retrieval_reference": "624200192616",
+                              "system_trace_audit_number": "926162"
+                            }
+                          ]
+                        }
+                      },
+                      "reconciliation_data": {
+                        "custom_field": [
+                          {
+                            "name": "field1",
+                            "value": "123"
+                          },
+                          {
+                            "name": "field2",
+                            "value": "456"
+                          },
+                          {
+                            "name": "field3",
+                            "value": "789"
+                          }
+                        ]
+                      },
+                      "statement_descriptor": "TST*THANKYOU",
+                      "participant": {
+                        "merchant_category_code": "4121",
+                        "card_acceptor_id": "CardAcceptor123",
+                        "customer_service_contact_info": "18005559999"
+                      },
+                      "channel": "KIOSK",
+                      "original_status": "APPROVED",
+                      "status": "APPROVED",
+                      "status_timestamp": "2016-08-29T01:07:37-05:00",
+                      "transfer_priority": "FDP",
+                      "faster_payments_id": "YE78126Q54WK2J06M33020170720826608371",
+                      "payment_uid": "32e2f3f9-dee4-4d10-a470-3dfa01dbf118"
+                    }
+                  }
+   /send/v1/partners/{partnerId}/transfers/{transferId}: 
+      get: 
+         tags: 
+         - Payment Transfer
+         description: Purpose of this service is to retrieve the Transfer resource associated with the
+            specified transfer-id.
+         summary: Purpose of this service is to retrieve the Transfer resource associated with the specified
+            transfer-id.
+         operationId: getTransferById
+         produces: 
+         - application/xml
+         parameters: 
+         - 
+            in: path
+            name: partnerId
+            description: Path Param - Provider assigned partner id. Details - string, 32
+            required: true
+            type: string
+         - 
+            in: path
+            name: transferId
+            description: Path Param - Valid transfer id
+            required: true
+            type: string
+         responses: 
+            200: 
+               description: Response details
+               schema: 
+                  $ref: '#/definitions/Transfer_wrapper'
+         x-testable: false
+         x-action: read by ID
+         x-samples: 
+         - 
+            name: GetTransferById_NON_TOKENIZED
+            ordering: 311
+            ignoreAsserts: 
+            - transfer.transfer_reference
+            - transfer.id
+            - transfer.created
+            - transfer.transaction_history.data.transaction[0].id
+            - transfer.transaction_history.data.transaction[0].create_timestamp
+            - transfer.transaction_history.data.transaction[0].status_timestamp
+            - transfer.transaction_history.data.transaction[0].network
+            - transfer.transaction_history.data.transaction[0].network_status_code
+            - transfer.transaction_history.data.transaction[0].network_status_description
+            - transfer.transaction_history.data.transaction[0].funds_availability
+            - transfer.status_timestamp
+            - transfer.sender.email
+            - transfer.recipient.email
+            - transfer.transaction_history.data.transaction[0].retrieval_reference
+            - transfer.transaction_history.data.transaction[0].system_trace_audit_number
+            - transfer.statement_descriptor
+            - transfer.sender.government_ids
+            - transfer.sender.government_ids.government_id_uri[0]
+            - transfer.recipient.government_ids
+            - transfer.recipient.government_ids.government_id_uri[0]
+            - transfer.original_status
+            - transfer.sender.sanction_score
+            - transfer.recipient.sanction_score
+            - transfer.transaction_history.data.transaction[0].status
+            - transfer.transaction_history.data.transaction[0].status_reason
+            - transfer.original_status
+            - transfer.status
+            - transfer.participant.merchant_category_code
+            - transfer.participant.card_acceptor_id
+            - transfer.participant.customer_service_contact_info
+            overrides: 
+            - 
+               transferId: CreatePayment_NON_TOKENIZED.transfer.id
+            request: 
+               application/json: |
+                  {
+                  "partnerId": "ptnr_BEeCrYJHh2BXTXPy_PEtp-8DBOo",
+                  "transferId": "trn_MQTGry0D_TGe8QTrWj4LtaydUUWM"
+                  }
+            response: 
+               application/json: |
+                  {
+                    "transfer": {
+                      "id": "trn_MQTGry0D_TGe8QTrWj4LtaydUUWM",
+                      "resource_type": "transfer",
+                      "transfer_reference": "TRNREF_20160829130404970",
+                      "payment_type": "P2P",
+                      "sender_account_uri": "pan:************0018",
+                      "sender": {
+                        "first_name": "John",
+                        "middle_name": "Tyler",
+                        "last_name": "Jones",
+                        "nationality": "USA",
+                        "date_of_birth": "1994-05-21",
+                        "address": {
+                          "line1": "21 Broadway",
+                          "line2": "Apartment A-6",
+                          "city": "OFallon",
+                          "country_subdivision": "MO",
+                          "postal_code": "63368",
+                          "country": "USA"
+                        },
+                        "phone": "11234565555",
+                        "email": "John.Jones123@abcmail.com",
+                        "government_ids": {
+                          "government_id_uri": [
+                            "ppn:*****6789;expiration-date=2019-05-27;issue-date=2011-07-12;issuing-country=USA;issuing-place=OFallon"
+                          ]
+                        },
+                        "sanction_score": "20"
+                      },
+                      "payment_origination_country": "USA",
+                      "recipient_account_uri": "pan:************0018",
+                      "recipient": {
+                        "first_name": "Jane",
+                        "middle_name": "Tyler",
+                        "last_name": "Smith",
+                        "nationality": "USA",
+                        "date_of_birth": "1999-12-30",
+                        "address": {
+                          "line1": "1 Main St",
+                          "line2": "Apartment 9",
+                          "city": "OFallon",
+                          "country_subdivision": "MO",
+                          "postal_code": "63368",
+                          "country": "USA"
+                        },
+                        "phone": "11234567890",
+                        "email": "Jane.Smith123@abcmail.com",
+                        "government_ids": {
+                          "government_id_uri": [
+                            "ppn:*****6789;expiration-date=2019-05-27;issue-date=2011-07-12;issuing-country=USA;issuing-place=OFallon"
+                          ]
+                        },
+                        "sanction_score": "20"
+                      },
+                      "transfer_amount": {
+                        "value": "1800",
+                        "currency": "USD"
+                      },
+                      "created": "2016-08-29T08:07:37.282-05:00",
+                      "transaction_history": {
+                        "resource_type": "list",
+                        "item_count": "1",
+                        "data": {
+                          "transaction": [
+                            {
+                              "id": "txn_SVDvtQk1mKcJefExHKpvVeLctXvJ",
+                              "resource_type": "transaction",
+                              "account_uri": "pan:************0018",
+                              "transaction_amount": {
+                                "value": "1800",
+                                "currency": "USD"
+                              },
+                              "network": "STAR",
+                              "network_status_code": "00",
+                              "network_status_description": "Approved or completed successfully",
+                              "funds_availability": "IMMEDIATE",
+                              "type": "PAYMENT",
+                              "create_timestamp": "2016-08-29T08:07:37.288-05:00",
+                              "status": "APPROVED",
+                              "status_reason": "APPROVED",
+                              "status_timestamp": "2016-08-29T01:07:37-05:00",
+                              "retrieval_reference": "624200192616",
+                              "system_trace_audit_number": "926162"
+                            }
+                          ]
+                        }
+                      },
+                      "reconciliation_data": {
+                        "custom_field": [
+                          {
+                            "name": "ABC",
+                            "value": "123"
+                          },
+                          {
+                            "name": "DEF",
+                            "value": "456"
+                          },
+                          {
+                            "name": "GHI",
+                            "value": "789"
+                          }
+                        ]
+                      },
+                      "statement_descriptor": "TST*THANKYOU",
+                      "participant": {
+                        "merchant_category_code": "4121",
+                        "card_acceptor_id": "CardAcceptor123",
+                        "customer_service_contact_info": "18005559999"
+                      },
+                      "channel": "KIOSK",
+                      "original_status": "APPROVED",
+                      "status": "APPROVED",
+                      "status_timestamp": "2016-08-29T08:07:37.374-05:00"
+                    }
+                  }
+         - 
+            name: GetTransferById_TOKENIZED
+            ordering: 312
+            ignoreAsserts: 
+            - transfer.transfer_reference
+            - transfer.id
+            - transfer.created
+            - transfer.transaction_history.data.transaction[0].id
+            - transfer.transaction_history.data.transaction[0].create_timestamp
+            - transfer.transaction_history.data.transaction[0].status_timestamp
+            - transfer.transaction_history.data.transaction[0].network
+            - transfer.transaction_history.data.transaction[0].network_status_code
+            - transfer.transaction_history.data.transaction[0].network_status_description
+            - transfer.transaction_history.data.transaction[0].funds_availability
+            - transfer.status_timestamp
+            - transfer.sender.email
+            - transfer.recipient.email
+            - transfer.transaction_history.data.transaction[0].retrieval_reference
+            - transfer.transaction_history.data.transaction[0].system_trace_audit_number
+            - transfer.sender_account_uri
+            - transfer.statement_descriptor
+            - transfer.sender.government_ids
+            - transfer.sender.government_ids.government_id_uri[0]
+            - transfer.recipient.government_ids
+            - transfer.recipient.government_ids.government_id_uri[0]
+            - transfer.original_status
+            - transfer.sender.sanction_score
+            - transfer.recipient.sanction_score
+            - transfer.transaction_history.data.transaction[0].status
+            - transfer.transaction_history.data.transaction[0].status_reason
+            - transfer.original_status
+            - transfer.status
+            - transfer.participant.merchant_category_code
+            - transfer.participant.card_acceptor_id
+            - transfer.participant.customer_service_contact_info
+            overrides: 
+            - 
+               transferId: CreatePayment_TOKENIZED.transfer.id
+            request: 
+               application/json: |
+                  {
+                  "partnerId": "ptnr_BEeCrYJHh2BXTXPy_PEtp-8DBOo",
+                  "transferId": "trn_4MMUC7147Vamd1IVt77DV0d-mIZr"
+                  }
+            response: 
+               application/json: |
+                  {
+                    "transfer": {
+                      "id": "trn_4MMUC7147Vamd1IVt77DV0d-mIZr",
+                      "resource_type": "transfer",
+                      "transfer_reference": "TRNREF_20160829130737009",
+                      "payment_type": "P2P",
+                      "sender_account_uri": "acct-ref:ref_20160407070850915",
+                      "sender": {
+                        "first_name": "John",
+                        "middle_name": "Tyler",
+                        "last_name": "Jones",
+                        "nationality": "USA",
+                        "date_of_birth": "1994-05-21",
+                        "address": {
+                          "line1": "21 Broadway",
+                          "line2": "Apartment A-6",
+                          "city": "OFallon",
+                          "country_subdivision": "MO",
+                          "postal_code": "63368",
+                          "country": "USA"
+                        },
+                        "phone": "11234565555",
+                        "email": "John.Jones123@abcmail.com",
+                        "government_ids": {
+                          "government_id_uri": [
+                            "ppn:*****6789;expiration-date=2019-05-27;issue-date=2011-07-12;issuing-country=USA;issuing-place=OFallon"
+                          ]
+                        },
+                        "sanction_score": "20"
+                      },
+                      "recipient_account_uri": "pan:************0018",
+                      "recipient": {
+                        "first_name": "Jane",
+                        "middle_name": "Tyler",
+                        "last_name": "Smith",
+                        "nationality": "USA",
+                        "date_of_birth": "1999-12-30",
+                        "address": {
+                          "line1": "1 Main St",
+                          "line2": "Apartment 9",
+                          "city": "OFallon",
+                          "country_subdivision": "MO",
+                          "postal_code": "63368",
+                          "country": "USA"
+                        },
+                        "phone": "11234567890",
+                        "email": "Jane.Smith123@abcmail.com",
+                        "government_ids": {
+                          "government_id_uri": [
+                            "ppn:*****6789;expiration-date=2019-05-27;issue-date=2011-07-12;issuing-country=USA;issuing-place=OFallon"
+                          ]
+                        },
+                        "sanction_score": "20"
+                      },
+                      "transfer_amount": {
+                        "value": "1800",
+                        "currency": "USD"
+                      },
+                      "created": "2016-08-29T08:11:02.799-05:00",
+                      "transaction_history": {
+                        "resource_type": "list",
+                        "item_count": "1",
+                        "data": {
+                          "transaction": [
+                            {
+                              "id": "txn_S7hjCOKzzkSzeCTS7g-Fdq0_drCD",
+                              "resource_type": "transaction",
+                              "account_uri": "pan:************0018",
+                              "transaction_amount": {
+                                "value": "1800",
+                                "currency": "USD"
+                              },
+                              "network": "STAR",
+                              "network_status_code": "00",
+                              "network_status_description": "Approved or completed successfully",
+                              "funds_availability": "IMMEDIATE",
+                              "type": "PAYMENT",
+                              "create_timestamp": "2016-08-29T08:11:02.805-05:00",
+                              "status": "APPROVED",
+                              "status_reason": "APPROVED",
+                              "status_timestamp": "2016-08-29T01:11:02-05:00",
+                              "retrieval_reference": "624200192616",
+                              "system_trace_audit_number": "926162"
+                            }
+                          ]
+                        }
+                      },
+                      "reconciliation_data": {
+                        "custom_field": [
+                          {
+                            "name": "ABC",
+                            "value": "123"
+                          },
+                          {
+                            "name": "DEF",
+                            "value": "456"
+                          },
+                          {
+                            "name": "GHI",
+                            "value": "789"
+                          }
+                        ]
+                      },
+                      "statement_descriptor": "TST*THANKYOU",
+                      "participant": {
+                        "merchant_category_code": "4121",
+                        "card_acceptor_id": "CardAcceptor123",
+                        "customer_service_contact_info": "18005559999"
+                      },
+                      "channel": "KIOSK",
+                      "original_status": "APPROVED",
+                      "status": "APPROVED",
+                      "status_timestamp": "2016-08-29T08:11:02.895-05:00"
+                    }
+                  }
+   /send/v1/partners/{partnerId}/transfers: 
+      get: 
+         tags: 
+         - Payment Transfer
+         description: Purpose of this service is to retrieve the Transfer resource associated with a specified
+            transfer_reference value.
+         summary: Purpose of this service is to retrieve the Transfer resource associated with a specified
+            transfer_reference value.
+         operationId: getTransferByRef
+         produces: 
+         - application/xml
+         parameters: 
+         - 
+            in: path
+            name: partnerId
+            description: Path Param - Provider assigned partner id. Details - string, 32
+            required: true
+            type: string
+         - 
+            in: query
+            name: ref
+            description: Query Param - Is the client specified transfer reference when initiating the
+               transfer. Allowable characters are alphanumeric and * , - . _ ~. Details- 6-40 Example-
+               DEF123456
+            required: true
+            type: string
+         responses: 
+            200: 
+               description: Response details
+               schema: 
+                  $ref: '#/definitions/Transfers_wrapper'
+         x-testable: false
+         x-action: read by reference
+         x-samples: 
+         - 
+            name: GetTransferByRef_NON_TOKENIZED
+            ordering: 316
+            ignoreAsserts: 
+            - transfers.data.transfer[0].transfer_reference
+            - transfers.data.transfer[0].id
+            - transfers.data.transfer[0].created
+            - transfers.data.transfer[0].transaction_history.data.transaction[0].id
+            - transfers.data.transfer[0].transaction_history.data.transaction[0].create_timestamp
+            - transfers.data.transfer[0].transaction_history.data.transaction[0].status_timestamp
+            - transfers.data.transfer[0].transaction_history.data.transaction[0].network
+            - transfers.data.transfer[0].transaction_history.data.transaction[0].network_status_code
+            - transfers.data.transfer[0].transaction_history.data.transaction[0].network_status_description
+            - transfers.data.transfer[0].transaction_history.data.transaction[0].funds_availability
+            - transfers.data.transfer[0].status_timestamp
+            - transfers.data.transfer[0].sender.email
+            - transfers.data.transfer[0].recipient.email
+            - transfers.data.transfer[0].transaction_history.data.transaction[0].retrieval_reference
+            - transfers.data.transfer[0].transaction_history.data.transaction[0].system_trace_audit_number
+            - transfers.data.transfer[0].statement_descriptor
+            - transfers.data.transfer[0].sender.government_ids
+            - transfers.data.transfer[0].sender.government_ids.government_id_uri[0]
+            - transfers.data.transfer[0].recipient.government_ids
+            - transfers.data.transfer[0].recipient.government_ids.government_id_uri[0]
+            - transfers.data.transfer[0].original_status
+            - transfers.data.transfer[0].sender.sanction_score
+            - transfers.data.transfer[0].recipient.sanction_score
+            - transfers.data.transfer[0].transaction_history.data.transaction[0].status
+            - transfers.data.transfer[0].transaction_history.data.transaction[0].status_reason
+            - transfers.data.transfer[0].original_status
+            - transfers.data.transfer[0].status
+            - transfers.data.transfer[0].participant.merchant_category_code
+            - transfers.data.transfer[0].participant.card_acceptor_id
+            - transfers.data.transfer[0].participant.customer_service_contact_info
+            overrides: 
+            - 
+               ref: CreatePayment_NON_TOKENIZED.transfer.transfer_reference
+            request: 
+               application/json: |
+                  {
+                  "partnerId": "ptnr_BEeCrYJHh2BXTXPy_PEtp-8DBOo",
+                  "ref": "TRNREF_20160829130404970"
+                  }
+            response: 
+               application/json: |
+                  {
+                    "transfers": {
+                      "resource_type": "list",
+                      "item_count": "1",
+                      "data": {
+                        "transfer": [
+                          {
+                            "id": "trn_MQTGry0D_TGe8QTrWj4LtaydUUWM",
+                            "resource_type": "transfer",
+                            "transfer_reference": "TRNREF_20160829130404970",
+                            "payment_type": "P2P",
+                            "sender_account_uri": "pan:************0018",
+                            "sender": {
+                              "first_name": "John",
+                              "middle_name": "Tyler",
+                              "last_name": "Jones",
+                              "nationality": "USA",
+                              "date_of_birth": "1994-05-21",
+                              "address": {
+                                "line1": "21 Broadway",
+                                "line2": "Apartment A-6",
+                                "city": "OFallon",
+                                "country_subdivision": "MO",
+                                "postal_code": "63368",
+                                "country": "USA"
+                              },
+                              "phone": "11234565555",
+                              "email": "John.Jones123@abcmail.com",
+                              "government_ids": {
+                                "government_id_uri": [
+                                  "ppn:*****6789;expiration-date=2019-05-27;issue-date=2011-07-12;issuing-country=USA;issuing-place=OFallon"
+                                ]
+                              },
+                              "sanction_score": "20"
+                            },
+                            "recipient_account_uri": "pan:************0018",
+                            "recipient": {
+                              "first_name": "Jane",
+                              "middle_name": "Tyler",
+                              "last_name": "Smith",
+                              "nationality": "USA",
+                              "date_of_birth": "1999-12-30",
+                              "address": {
+                                "line1": "1 Main St",
+                                "line2": "Apartment 9",
+                                "city": "OFallon",
+                                "country_subdivision": "MO",
+                                "postal_code": "63368",
+                                "country": "USA"
+                              },
+                              "phone": "11234567890",
+                              "email": "Jane.Smith123@abcmail.com",
+                              "government_ids": {
+                                "government_id_uri": [
+                                  "ppn:*****6789;expiration-date=2019-05-27;issue-date=2011-07-12;issuing-country=USA;issuing-place=OFallon"
+                                ]
+                              },
+                              "sanction_score": "20"
+                            },
+                            "transfer_amount": {
+                              "value": "1800",
+                              "currency": "USD"
+                            },
+                            "created": "2016-08-29T08:07:37.282-05:00",
+                            "transaction_history": {
+                              "resource_type": "list",
+                              "item_count": "1",
+                              "data": {
+                                "transaction": [
+                                  {
+                                    "id": "txn_SVDvtQk1mKcJefExHKpvVeLctXvJ",
+                                    "resource_type": "transaction",
+                                    "account_uri": "pan:************0018",
+                                    "transaction_amount": {
+                                      "value": "1800",
+                                      "currency": "USD"
+                                    },
+                                    "network": "STAR",
+                                    "network_status_code": "00",
+                                    "network_status_description": "Approved or completed successfully",
+                                    "funds_availability": "IMMEDIATE",
+                                    "type": "PAYMENT",
+                                    "create_timestamp": "2016-08-29T08:07:37.288-05:00",
+                                    "status": "APPROVED",
+                                    "status_reason": "APPROVED",
+                                    "status_timestamp": "2016-08-29T01:07:37-05:00",
+                                    "retrieval_reference": "624200192616",
+                                    "system_trace_audit_number": "926162"
+                                  }
+                                ]
+                              }
+                            },
+                            "reconciliation_data": {
+                              "custom_field": [
+                                {
+                                  "name": "ABC",
+                                  "value": "123"
+                                },
+                                {
+                                  "name": "DEF",
+                                  "value": "456"
+                                },
+                                {
+                                  "name": "GHI",
+                                  "value": "789"
+                                }
+                              ]
+                            },
+                            "statement_descriptor": "TST*THANKYOU",
+                            "participant": {
+                              "merchant_category_code": "4121",
+                              "card_acceptor_id": "CardAcceptor123",
+                              "customer_service_contact_info": "18005559999"
+                            },
+                            "channel": "KIOSK",
+                            "original_status": "APPROVED",
+                            "status": "APPROVED",
+                            "status_timestamp": "2016-08-29T08:07:37.374-05:00"
+                          }
+                        ]
+                      }
+                    }
+                  }
+         - 
+            name: GetTransferByRef_TOKENIZED
+            ordering: 317
+            ignoreAsserts: 
+            - transfers.data.transfer[0].transfer_reference
+            - transfers.data.transfer[0].id
+            - transfers.data.transfer[0].created
+            - transfers.data.transfer[0].transaction_history.data.transaction[0].id
+            - transfers.data.transfer[0].transaction_history.data.transaction[0].create_timestamp
+            - transfers.data.transfer[0].transaction_history.data.transaction[0].status_timestamp
+            - transfers.data.transfer[0].transaction_history.data.transaction[0].network
+            - transfers.data.transfer[0].transaction_history.data.transaction[0].network_status_code
+            - transfers.data.transfer[0].transaction_history.data.transaction[0].network_status_description
+            - transfers.data.transfer[0].transaction_history.data.transaction[0].funds_availability
+            - transfers.data.transfer[0].status_timestamp
+            - transfers.data.transfer[0].sender.email
+            - transfers.data.transfer[0].recipient.email
+            - transfers.data.transfer[0].transaction_history.data.transaction[0].retrieval_reference
+            - transfers.data.transfer[0].transaction_history.data.transaction[0].system_trace_audit_number
+            - transfers.data.transfer[0].sender_account_uri
+            - transfers.data.transfer[0].statement_descriptor
+            - transfers.data.transfer[0].sender.government_ids
+            - transfers.data.transfer[0].sender.government_ids.government_id_uri[0]
+            - transfers.data.transfer[0].recipient.government_ids
+            - transfers.data.transfer[0].recipient.government_ids.government_id_uri[0]
+            - transfers.data.transfer[0].original_status
+            - transfers.data.transfer[0].sender.sanction_score
+            - transfers.data.transfer[0].recipient.sanction_score
+            - transfers.data.transfer[0].transaction_history.data.transaction[0].status
+            - transfers.data.transfer[0].transaction_history.data.transaction[0].status_reason
+            - transfers.data.transfer[0].original_status
+            - transfers.data.transfer[0].status
+            - transfers.data.transfer[0].participant.merchant_category_code
+            - transfers.data.transfer[0].participant.card_acceptor_id
+            - transfers.data.transfer[0].participant.customer_service_contact_info
+            overrides: 
+            - 
+               ref: CreatePayment_TOKENIZED.transfer.transfer_reference
+            request: 
+               application/json: |
+                  {
+                  "partnerId": "ptnr_BEeCrYJHh2BXTXPy_PEtp-8DBOo",
+                  "ref": "TRNREF_20160829130737009"
+                  }
+            response: 
+               application/json: |
+                  {
+                    "transfers": {
+                      "resource_type": "list",
+                      "item_count": "1",
+                      "data": {
+                        "transfer": [
+                          {
+                            "id": "trn_4MMUC7147Vamd1IVt77DV0d-mIZr",
+                            "resource_type": "transfer",
+                            "transfer_reference": "TRNREF_20160829130737009",
+                            "payment_type": "P2P",
+                            "sender_account_uri": "acct-ref:ref_20160407070850915",
+                            "sender": {
+                              "first_name": "John",
+                              "middle_name": "Tyler",
+                              "last_name": "Jones",
+                              "nationality": "USA",
+                              "date_of_birth": "1994-05-21",
+                              "address": {
+                                "line1": "21 Broadway",
+                                "line2": "Apartment A-6",
+                                "city": "OFallon",
+                                "country_subdivision": "MO",
+                                "postal_code": "63368",
+                                "country": "USA"
+                              },
+                              "phone": "11234565555",
+                              "email": "John.Jones123@abcmail.com",
+                              "government_ids": {
+                                "government_id_uri": [
+                                  "ppn:*****6789;expiration-date=2019-05-27;issue-date=2011-07-12;issuing-country=USA;issuing-place=OFallon"
+                                ]
+                              },
+                              "sanction_score": "20"
+                            },
+                            "recipient_account_uri": "pan:************0018",
+                            "recipient": {
+                              "first_name": "Jane",
+                              "middle_name": "Tyler",
+                              "last_name": "Smith",
+                              "nationality": "USA",
+                              "date_of_birth": "1999-12-30",
+                              "address": {
+                                "line1": "1 Main St",
+                                "line2": "Apartment 9",
+                                "city": "OFallon",
+                                "country_subdivision": "MO",
+                                "postal_code": "63368",
+                                "country": "USA"
+                              },
+                              "phone": "11234567890",
+                              "email": "Jane.Smith123@abcmail.com",
+                              "government_ids": {
+                                "government_id_uri": [
+                                  "ppn:*****6789;expiration-date=2019-05-27;issue-date=2011-07-12;issuing-country=USA;issuing-place=OFallon"
+                                ]
+                              },
+                              "sanction_score": "20"
+                            },
+                            "transfer_amount": {
+                              "value": "1800",
+                              "currency": "USD"
+                            },
+                            "created": "2016-08-29T08:11:02.799-05:00",
+                            "transaction_history": {
+                              "resource_type": "list",
+                              "item_count": "1",
+                              "data": {
+                                "transaction": [
+                                  {
+                                    "id": "txn_S7hjCOKzzkSzeCTS7g-Fdq0_drCD",
+                                    "resource_type": "transaction",
+                                    "account_uri": "pan:************0018",
+                                    "transaction_amount": {
+                                      "value": "1800",
+                                      "currency": "USD"
+                                    },
+                                    "network": "STAR",
+                                    "network_status_code": "00",
+                                    "network_status_description": "Approved or completed successfully",
+                                    "funds_availability": "IMMEDIATE",
+                                    "type": "PAYMENT",
+                                    "create_timestamp": "2016-08-29T08:11:02.805-05:00",
+                                    "status": "APPROVED",
+                                    "status_reason": "APPROVED",
+                                    "status_timestamp": "2016-08-29T01:11:02-05:00",
+                                    "retrieval_reference": "624200192616",
+                                    "system_trace_audit_number": "926162"
+                                  }
+                                ]
+                              }
+                            },
+                            "reconciliation_data": {
+                              "custom_field": [
+                                {
+                                  "name": "ABC",
+                                  "value": "123"
+                                },
+                                {
+                                  "name": "DEF",
+                                  "value": "456"
+                                },
+                                {
+                                  "name": "GHI",
+                                  "value": "789"
+                                }
+                              ]
+                            },
+                            "statement_descriptor": "TST*THANKYOU",
+                            "participant": {
+                              "merchant_category_code": "4121",
+                              "card_acceptor_id": "CardAcceptor123",
+                              "customer_service_contact_info": "18005559999"
+                            },
+                            "channel": "KIOSK",
+                            "original_status": "APPROVED",
+                            "status": "APPROVED",
+                            "status_timestamp": "2016-08-29T08:11:02.895-05:00"
+                          }
+                        ]
+                      }
+                    }
+                  }
+definitions: 
+   Address: 
+      type: object
+      description: ' Address of the recipient.'
+      properties: 
+         line1: 
+            description: First line of the address of the recipient.
+            type: string
+            example: "1 Main St"
+         line2: 
+            description: Second line of the address of the recipient.
+            type: string
+            example: "Apartment 9"
+         city: 
+            description: City of the recipient
+            type: string
+            example: "OFallon"
+         country_subdivision: 
+            description: State or province of the recipient.
+            type: string
+            example: "MO"
+         postal_code: 
+            description: Postal code of the recipient.
+            type: string
+            example: "63368"
+         country: 
+            description: Country of the recipient as an ISO alpha country code.
+            type: string
+            example: "USA"
+      xml: 
+         name: address
+   GovernmentIds: 
+      type: object
+      description: Recipient Government ID.
+      properties: 
+         government_id_uri: 
+            type: array
+            description: URI describing the recipient government id. See 'Government ID URIs'.
+            items: 
+               type: string
+      xml: 
+         name: government_ids
+   Sender: 
+      type: object
+      required: 
+      - first_name
+      - last_name
+      description: Information about the sender of the transaction in request. If a PAN number is provided
+         in the sender_account_uri, the sender information section is required. Details- Conditional
+      properties: 
+         first_name: 
+            description: First name of the sender. Details- 1-40
+            type: string
+            example: "John"
+         middle_name: 
+            description: Middle name of the sender. Details- 1-40
+            type: string
+            example: "Tyler"
+         last_name: 
+            description: Last name of the sender. Details- 1-40
+            type: string
+            example: "Jones"
+         nationality: 
+            description: 'Country of the sender as an ISO alpha country code. Details- Alpha, Length:
+               3'
+            type: string
+            example: "USA"
+         date_of_birth: 
+            description: "Date of birth of the sender as an ISO 8601 Full Date. Some of the Networks \
+               Mandate this field to be required on transactions greater than $3000 else\_there is a\_\
+               potential for the transaction to be rejected. Valid Values- Refer 'Date And Time Forma\
+               ts"
+            type: string
+            example: "1999-12-30"
+         address: 
+            $ref: '#/definitions/Address'
+         phone: 
+            description: Phone number of the sender. Phone number or email address should be provided
+               if the partner is set up to receive notifications. Details- Conditional, 1-15
+            type: string
+            example: "12125551234"
+         email: 
+            description: Email address of the sender. Phone number or email address should be provided
+               if the partner is set up to receive notifications. Details- Conditional, 5-254
+            type: string
+            example: "jane.smith123@abcmail.com"
+         government_ids: 
+            $ref: '#/definitions/GovernmentIds'
+      xml: 
+         name: sender
+   TokenCryptogram: 
+      type: object
+      required: 
+      - type
+      - value
+      description: Token Cryptogram is a value that needs to be processed along with the token when submitting
+         a transaction.
+      properties: 
+         type: 
+            description: "CONTACTLESS_CHIP: When shared cryptogram in token_cryptogram.value is result
+               of a contactless tap and chip information is read by the terminal, CONTACTLESS_MAGSTRIPE:
+               When shared cryptogram in token_cryptogram.value is result of a contactless tap and the
+               magstripe information is read by the terminal, DSRP_UCAF: When shared cryptogram in token_cryptogram.value
+               is result of an in-app purchase and chip information to be passed in the UCAF field, DSRP_CHIP:
+               When shared cryptogram in token_cryptogram.value is result of an in-app purchase leveraging
+               EMV data.Values - CONTACTLESS_CHIP, CONTACTLESS_MAGSTRIPE, DSRP_UCAF, DSRP_CHIP. \n\nType:
+               Alpha Special [A-Z-], Length: 1-22"
+            type: string
+            example: "CONTACTLESS_CHIP"
+         value: 
+            description: "CONTACTLESS_CHIP - Type: Hexadecimal [A-F0-9], Length: 2-510\n\nCONTACTLESS_MAGSTRIPE
+               - Type: Hexadecimal [A-F0-9], Length: 2-510\n\nDSRP_UCAF - Type: Base64 [A-Za-z0-9+/=?:],
+               Length: 1-510\n\nDSRP_CHIP - Type: Hexadecimal [A-F0-9], Length: 2-510"
+            type: string
+            example: "jjoutwsdgfdou124354ljlsdhgout968957"
+         pan_sequence_number: 
+            description: "PAN Sequence Number distinguishes among separate cards having the same PAN.
+               Processors with chip-reading capability may pass this information for Contactless Chip
+               and Contactless Magstripe transactions.When the token_cryptogram.type contains one the
+               following types CONTACTLESS_CHIP, CONTACTLESS_MAGSTRIPE, DSRP_CHIP, then the pan_sequence_number
+               may be present. \n\nType: Numeric[0-9], Length: 3 \nExample: 011"
+            type: string
+            example: "011"
+      xml: 
+         name: token_cryptogram
+   Authentication: 
+      type: object
+      description: Customer would have to pass either Authentication code or Authentication value if they
+         pass the Authentication object.
+      properties: 
+         authentication_value: 
+            description: List of name/value pairs containing authentication  values. Refer 'Authentication
+               Value URIs'
+            type: string
+            example: "ucaf: jJJLtQa+Iws8AREAEbjsA1MAAAA"
+         authentication_code: 
+            description: Authentication Code indicates the authentication mechanism. This can contain
+               one of the following values - AUTHENTICATED_CAVV , NON_AUTHENTICATED_3D_SECURE , NON_AUTHENTICATED  and
+               NON_SECURE .
+            type: string
+            example: "AUTHENTICATED_CAVV"
+      xml: 
+         name: authentication
+   Recipient: 
+      type: object
+      required: 
+      - first_name
+      - last_name
+      description: Information about the recipient of the transaction in request. If a PAN is provided
+         in the recipient_account_uri, the recipient information section is required. Details- Conditional
+      properties: 
+         first_name: 
+            description: First name of the recipient. Details- 1-40
+            type: string
+            example: "John"
+         middle_name: 
+            description: Middle name of the recipient. Details- 1-40
+            type: string
+            example: "Tyler"
+         last_name: 
+            description: Last name of the recipient. Details- 1-40
+            type: string
+            example: "Jones"
+         nationality: 
+            description: 'Country of the recipient as an ISO alpha country code. Details- Alpha, Length:
+               3'
+            type: string
+            example: "USA"
+         date_of_birth: 
+            description: Date of birth of the receiver as an ISO 8601 Full Date. Valid Values- Refer 'Date
+               And Time Formats'
+            type: string
+            example: "1999-12-30"
+         address: 
+            $ref: '#/definitions/Address'
+         phone: 
+            description: Phone number of the recipient. Phone number or email address should be provided
+               if the partner is set up to receive notifications. Details- 1-15
+            type: string
+            example: "11234567890"
+         email: 
+            description: Email address of the recipient. Phone number or email address should be provided
+               if the partner is set up to receive notifications. Details- Conditional, 5-254
+            type: string
+            example: "john.smith123@abcmail.com"
+         government_ids: 
+            $ref: '#/definitions/GovernmentIds'
+         name_on_account: 
+            description: 'Name on the account. Applicable for non-card only.  Allowable characters are
+               alphanumeric and - / ? : ( ) . + # = ! % & * < > ; { @   '' "  characters. Details- Conditional,
+               Required for non-card only , 1-40'
+            type: string
+            example: "Jane Smith"
+      xml: 
+         name: recipient
+   CustomField: 
+      type: object
+      description: Contains custom field names and values to appear in the reconciliation report. This
+         can be a list of multiple name/value pairs. The names provided must match the configured in the
+         partner setup.
+      properties: 
+         name: 
+            description: Name to be displayed in the reconciliation report. This value will appear as
+               a header in the reconciliation reports. Name values to be defined during the onboarding
+               process. Details- 1-40
+            type: string
+            example: "TransactionID"
+         value: 
+            description: Value to be displayed in the reconciliation report. Details- 1-200
+            type: string
+            example: "456FDWBS43"
+      xml: 
+         name: custom_field
+   ReconciliationData: 
+      type: object
+      description: Reconciliation information that will be associated to the transfer and will appear
+         in the reconciliation reporting for the partner.
+      properties: 
+         custom_field: 
+            description: Contains custom field names and values to appear in the reconciliation report.
+               This can be a list of multiple name/value pairs. The names provided must match the configured
+               in the partner setup.
+            type: array
+            items: 
+               $ref: '#/definitions/CustomField'
+      xml: 
+         name: reconciliation_data
+   FundingTransactionReference: 
+      type: object
+      required: 
+      - network
+      - reference_number
+      description: This section describes information is used by the Mastercard and Visa networks to link
+         a funding and payment transaction when both card accounts are Visa accounts or both accounts
+         are Mastercard accounts.
+      properties: 
+         network: 
+            description: Network on which funding transaction is processed required. Valid values will
+               be provided during partner onboarding.
+            type: string
+            example: "MASTERCARD"
+         reference_number: 
+            description: Provide the id from the funding transfer resource. Details- 6-40
+            type: string
+            example: "trn_8h4me233jk23l6c5lw5f"
+      xml: 
+         name: funding_transaction_reference
+   Participant: 
+      type: object
+      description: "Information about a participant that may be passed along to the network.\_"
+      properties: 
+         merchant_category_code: 
+            description: "Classification of the merchant\u2019s type of business or service.\_ Please\
+               \ contact your MasterCard Representative to enable the usage of fields in this section\
+               . Details- numeric, 4"
+            type: string
+            example: "4121"
+         card_acceptor_id: 
+            description: "Code identifying the card acceptor.\_\_Please contact your MasterCard Repre\
+               sentative to enable the usage of fields in this section.\_ Details - alphanumeric, 10-\
+               15"
+            type: string
+            example: "CardAcceptor123"
+         customer_service_contact_info: 
+            description: "Customer service phone number, tiny url or email that may be displayed on t\
+               he recipient\u2019s bank or card statement. \_Please contact your MasterCard Represent\
+               ative to enable the usage of fields in this section.\_\_Details - alphanumeric, specia\
+               l, 1-13"
+            type: string
+            example: "18005559999"
+      xml: 
+         name: participant
+   PaymentTransfer: 
+      type: object
+      required: 
+      - transfer_reference
+      - amount
+      - currency
+      - sender_account_uri
+      - funding_source
+      - recipient_account_uri
+      description: Contains the details of the request message.
+      properties: 
+         transfer_reference: 
+            description: Provide a unique transaction reference number. It must be a unique value for
+               the partner. Details- 6-40, Allowable characters are alphanumeric and * , - . _ ~
+            type: string
+            example: "PAYMENT123456"
+         payment_type: 
+            description: 'P2P: Person to Person, A2A: Account to Account, CBP: Credit Card Bill Payment
+               This parameter will be defined during the onboarding process of the partner. If the partner
+               is enrolled in multiple payment types, the payment type must be specified. If the partner
+               is only enrolled in a single payment type, this field is optional. Details- Conditional'
+            type: string
+            example: "P2P"
+         amount: 
+            description: Amount of the transfer. The decimal point is implied based on the payment_transfer.currency.
+               Details- 1-999999999999
+            type: string
+            example: "5300"
+         currency: 
+            description: 'Currency of the transfer amount as an ISO alpha currency code. Details- Alpha,
+               Length: 3'
+            type: string
+            example: "USD"
+         sender_account_uri: 
+            description: 'URI to identify the account of the sender. When providing a URI containing a
+               PAN the payment_transfer.sender section is required. If scheme chosen is raw, then funding_source
+               must be other than CREDIT, DEBIT or PREPAID. When providing a URI containing a non-card
+               Token, it is applicable only for non-card. Valid Values- Refer ''Account URIs'' '
+            type: string
+            example: "pan:************9012"
+         sender: 
+            $ref: '#/definitions/Sender'
+         additional_message: 
+            description: Message a financial institution will associate to the transfer and may display.
+               Details- 1-65
+            type: string
+            example: "DEV123456"
+         funding_source: 
+            description: 'Funding source must contain one of the following: CREDIT, DEBIT, PREPAID, DEPOSIT_ACCOUNT,
+               MOBILE_MONEY_ACCOUNT or CASH.'
+            type: string
+            example: "DEBIT"
+         participation_id: 
+            description: Participation identifier of the sender. The receiving financial institution will
+               associate the value to the transfer. Details- 1-30
+            type: string
+            example: "TERMINAL34728"
+         token_cryptogram: 
+            $ref: '#/definitions/TokenCryptogram'
+         authentication: 
+            $ref: '#/definitions/Authentication'
+         network_preference: 
+            description: Requested network for the transaction routing. Potential values will be provided
+               during partner onboarding. Details- 1-30
+            type: string
+            example: "MONEYSEND"
+         recipient_account_uri: 
+            description: URI identifying recipient's account to receive funds. Valid Values- Refer 'Account
+               URIs', pan, acct-token, fps-acct, and iban are valid values. Iban or fps-acct are for non-card
+               only.
+            type: string
+            example: "acct-ref:ABCD123456789"
+         recipient: 
+            $ref: '#/definitions/Recipient'
+         payment_origination_country: 
+            description: 'The country where the payment originates from as an ISO 3166-1 alpha-3 country
+               code, in uppercase. Details - Conditional. If provided, this should match a valid country
+               configured for the partner during onboarding. If the partner is configured for multiple
+               origination countries this field is required and must be provided. Alpha, length: 3'
+            type: string
+            example: "USA"
+         sanction_screening_override: 
+            description: "Override indicator if partner has opted into Sanction Screening validation \
+               as part of transaction processing.  If Sanction Screening score on either sender or re\
+               ceiver is equal to or above threshold configured for partner, the payment will error. \
+               \ To bypass the Sanction Screening validation and process the payment the value 'true'\
+               \ should be submitted.  Details:  Optional \u2013 If partner has not enabled Sanction \
+               Screening validation default is 'true'.   Required - If partner has opted into Sanctio\
+               n Screening validation but wants to bypass Sanction Screening validation and process t\
+               he payment, value should be 'true'. "
+            type: boolean
+            example: "true"
+         reconciliation_data: 
+            $ref: '#/definitions/ReconciliationData'
+         channel: 
+            description: 'Initiation channel of the transfer request. This value can be defined in the
+               onboarding process instead of passing in every call. Values: WEB, MOBILE, BANK, KIOSK.
+               Details- Conditional'
+            type: string
+            example: "WEB"
+         statement_descriptor: 
+            description: 'The statement descriptor is the value that will be displayed on the recipient''s
+               bank or card statement. It consists of two parts: the prefix and the content. The prefix
+               is a short string typically used to identify the partner. It is defined during onboarding
+               and the same value can be provided in the API call. If not provided in the API call, system
+               will use the value defined in the onboarding process. The appended &lt;prefix&gt;*&lt;content&gt;
+               will be displayed on the recipient''s statement. The overall length may be at most 22 characters,
+               including the prefix and the content. Note: While most financial institutions display this
+               information consistently, some may display it per their discretion or not at all. Details-
+               1-22'
+            type: string
+            example: "TST*THANKYOU"
+         device_id: 
+            description: The serial number of a device initiating the transfer. Details- 1-40
+            type: string
+            example: "DEV123456"
+         location: 
+            description: Location where the transaction is initiated.
+            type: string
+            example: "state:MO"
+         funding_transaction_reference: 
+            $ref: '#/definitions/FundingTransactionReference'
+         participant: 
+            $ref: '#/definitions/Participant'
+         transfer_priority: 
+            description: 'Type of payment instruction to send. Applicable for non-card only. Values: SIP
+               - Standard immediate payment (default), FDP - Future dated payment'
+            type: string
+            example: "SIP"
+      xml: 
+         name: payment_transfer
+   P2p_Sender: 
+      type: object
+      description: Information about the sender of the transaction in response.
+      properties: 
+         first_name: 
+            description: First name of the sender.
+            type: string
+            example: "John"
+         middle_name: 
+            description: Middle name of the sender.
+            type: string
+            example: "Tyler"
+         last_name: 
+            description: Last name of the sender.
+            type: string
+            example: "Jones"
+         nationality: 
+            description: Country of the sender as an ISO alpha country code.
+            type: string
+            example: "USA"
+         date_of_birth: 
+            description: Date of birth of the sender as an ISO 8601 Full Date.
+            type: string
+            example: "1999-12-30"
+         address: 
+            $ref: '#/definitions/Address'
+         phone: 
+            description: Phone number of the sender.
+            type: string
+            example: "11234567890"
+         email: 
+            description: Email address of the sender.
+            type: string
+            example: "jane.smith123@abcmail.com"
+         government_ids: 
+            $ref: '#/definitions/GovernmentIds'
+         sanction_score: 
+            description: "A value ranging from 0 to 100. A higher score indicates a closer match to n\
+               ames on the applicable screening list, while lower scores indicate a less likely match\
+               .  Available in response when partner is enabled for Sanction Screening validation and\
+               \ sanction_screening_override value is \u201cfalse\u201d."
+            type: string
+            example: "20"
+      xml: 
+         name: sender
+   P2p_Recipient: 
+      type: object
+      description: Information about the recipient of the transaction in response.
+      properties: 
+         first_name: 
+            description: First name of the recipient.
+            type: string
+            example: "John"
+         middle_name: 
+            description: Middle name of the recipient.
+            type: string
+            example: "Tyler"
+         last_name: 
+            description: Last name of the recipient.
+            type: string
+            example: "Jones"
+         nationality: 
+            description: Country of the recipient as an ISO alpha country code.
+            type: string
+            example: "USA"
+         date_of_birth: 
+            description: Date of birth of the recipient as an ISO 8601 Full Date. Valid Values- Refer
+               'Date And Time Formats'
+            type: string
+            example: "1999-12-30"
+         address: 
+            $ref: '#/definitions/Address'
+         phone: 
+            description: Phone number of the recipient.
+            type: string
+            example: "11234567890"
+         email: 
+            description: Email address of the recipient.
+            type: string
+            example: "Jane.Smith123@abcmail.com"
+         government_ids: 
+            $ref: '#/definitions/GovernmentIds'
+         name_on_account: 
+            description: 'Name on the account. Applicable for non-card only.  Allowable characters are
+               alphanumeric and - / ? : ( ) . + # = ! % & * < > ; { @   '' "  characters. Details- 1-40'
+            type: string
+            example: "Jane Smith"
+         sanction_score: 
+            description: "A value ranging from 0 to 100. A higher score indicates a closer match to n\
+               ames on the applicable screening list, while lower scores indicate a less likely match\
+               .  Available in response when partner is enabled for Sanction Screening validation and\
+               \ sanction_screening_override value is \u201cfalse\u201d."
+            type: string
+            example: "20"
+      xml: 
+         name: recipient
+   TransferAmount: 
+      type: object
+      description: Describes the amount paid to the recipient.
+      properties: 
+         value: 
+            description: Amount of the transfer. The decimal point is implied based on the payment_transfer.currency.
+            type: string
+            example: "5300"
+         currency: 
+            description: Currency of the transfer amount as an ISO alpha currency code.
+            type: string
+            example: "USD"
+      xml: 
+         name: transfer_amount
+   TransactionAmount: 
+      type: object
+      description: transaction amount consist of value and currency
+      properties: 
+         value: 
+            description: Amount of the transfer. The decimal point is implied based on the payment_transfer.currency.
+            type: string
+            example: "5300"
+         currency: 
+            description: Currency of the transfer amount as an ISO alpha currency code.
+            type: string
+            example: "USD"
+      xml: 
+         name: transaction_amount
+   Transaction: 
+      type: object
+      description: transaction array
+      properties: 
+         id: 
+            description: System generated unique transfer identifier.
+            type: string
+            example: "trn_8h4me233jk23l6c5lw5f"
+         resource_type: 
+            description: 'Type of resource. Valid value:  transaction'
+            type: string
+            example: "transaction"
+         account_uri: 
+            description: account uri
+            type: string
+            example: "pan:************9012"
+         transaction_amount: 
+            $ref: '#/definitions/TransactionAmount'
+         network: 
+            description: Proposed network for the transaction.
+            type: string
+            example: "MasterCard"
+         network_status_code: 
+            description: Network Status Code in case of Decline
+            type: string
+            example: "54"
+         network_status_description: 
+            description: Network Status Description in case of Decline
+            type: string
+            example: "Expired Card"
+         funds_availability: 
+            description: 'An estimate of when the funds might be available. Actual Deposit Availability
+               is determined by the financial institution.[One of: IMMEDIATE, SAME_DAY, NEXT_CALENDAR_DAY,
+               NEXT_BUSINESS_DAY, TWO_TO_FIVE_BUSINESS_DAYS, or UNKNOWN.]'
+            type: string
+            example: "IMMEDIATE"
+         type: 
+            description: 'Type of the transaction. One of: FUNDING, PAYMENT, FUNDING_REVERSAL, or PAYMENT_REVERSAL.'
+            type: string
+            example: "PAYMENT"
+         create_timestamp: 
+            description: Date and time the transaction was created as an ISO 8601 Timestamp. [YYYY-MM-DDTHH:MM:SSZ]
+            type: string
+            example: "2015-03-18T14:18:55Z"
+         status: 
+            description: Status of the disbursement. One of APPROVED, DECLINED, UNKNOWN, ERROR, or PENDING.
+            type: string
+            example: "APPROVED"
+         status_reason: 
+            description: Reason for status, APPROVED, DECLINED, FRAUD, CARD_EXPIRED, LIMIT_EXCEEDED, UNKNOWN,
+               ERROR, PENDING
+            type: string
+            example: "APPROVED"
+         status_timestamp: 
+            description: Date and time of when the status was changed to its current value as an ISO 8601
+               Timestamp. [YYYY-MM-DDTHH:MM:SSZ
+            type: string
+            example: "2015-03-18T14:18:56Z"
+         retrieval_reference: 
+            description: Unique reference number that identifies the transaction at the network. Details-
+               maxlength 24
+            type: string
+            example: "624200192616"
+         system_trace_audit_number: 
+            description: Unique system trace audit number for the transaction, the STAN ( system trace
+               audit number ). Details- maxlength 6
+            type: string
+            example: "926162"
+         unique_reference_number: 
+            description: 'Unique reference number for the transaction. Type: Alphanumeric [a-zA-Z 0-9],
+               Maximum Length: 19'
+            type: string
+            example: "592087939"
+      xml: 
+         name: transaction
+   Data: 
+      type: object
+      description: An array containing the Transactions in the transfer. Valid Values- Refer 'Transaction
+         Data'
+      properties: 
+         transaction: 
+            description: transaction array
+            type: array
+            items: 
+               $ref: '#/definitions/Transaction'
+      xml: 
+         name: data
+   TransactionHistory: 
+      type: object
+      description: A list of all Transactions in the transfer including reversals.
+      properties: 
+         resource_type: 
+            description: 'Resource type of the resource that is being returned. Valid value:  list'
+            type: string
+            example: "list"
+         item_count: 
+            description: 'Number of Transactions in the list. Details- Numeric Example: 1'
+            type: integer
+            format: int64
+            example: "1"
+         data: 
+            $ref: '#/definitions/Data'
+      xml: 
+         name: transaction_history
+   Transfer: 
+      type: object
+      description: Transfer array
+      properties: 
+         id: 
+            description: System generated unique transfer identifier.
+            type: string
+            example: "trn_9abcd233jk23l6c5lw5f"
+         resource_type: 
+            description: 'Resource type of the resource that is being returned. Valid value: transfer'
+            type: string
+            example: "transfer"
+         transfer_reference: 
+            description: Unique transaction reference number provided when the Transfer was created.
+            type: string
+            example: "DEF123456"
+         payment_type: 
+            description: 'P2P: Person to Person, A2A: Account to Account, CBP: Credit Card Bill Payment'
+            type: string
+            example: "P2P"
+         payment_origination_country: 
+            description: 'Country where the payment originated from as an ISO 3166-1 alpha-3 country code,
+               in uppercase. Details- Alpha, Length: 3'
+            type: string
+            example: "USA"
+         sender_account_uri: 
+            description: URI describing the sending account. It will include masked account information
+               (e.g. "************1234" for a card account) but will not include security codes (e.g.
+               CVC or expiration date for a card account).
+            type: string
+            example: "pan:************9012"
+         sender: 
+            $ref: '#/definitions/P2p_Sender'
+         recipient_account_uri: 
+            description: URI describing the recipient account. It will include masked account information
+               (e.g. "************1234" for a card account) but will not include security codes (e.g.
+               CVC or expiration date for a card account).
+            type: string
+            example: "pan:************7372"
+         recipient: 
+            $ref: '#/definitions/P2p_Recipient'
+         sanction_screening_override: 
+            description: Sanction Screening validation override if enabled for partner.
+            type: boolean
+            example: "false"
+         transfer_amount: 
+            $ref: '#/definitions/TransferAmount'
+         created: 
+            description: Date and time the original transfer was created as an ISO 8601 Timestamp. Details-
+               YYYY-MM-DDTHH:MM:SSZ Valid Values- Refer 'Date And Time Formats'
+            type: string
+            example: "2015-03-18T14:18:55Z"
+         transaction_history: 
+            $ref: '#/definitions/TransactionHistory'
+         reconciliation_data: 
+            $ref: '#/definitions/ReconciliationData'
+         statement_descriptor: 
+            description: 'The statement descriptor is the value that will be displayed on the recipient''s
+               bank or card statement. It consists of two parts: the prefix and the content. The prefix
+               is a short string typically used to identify the partner. The appended &lt;prefix&gt;*&lt;content&gt;
+               will be displayed on the recipient''s statement. Note: While most financial institutions
+               display this information consistently, some may display it incorrectly or not at all.'
+            type: string
+            example: "TST*THANKYOU"
+         channel: 
+            description: 'Initiation channel of the transfer request. Values: WEB, MOBILE, BANK, KIOSK.'
+            type: string
+            example: "WEB"
+         device_id: 
+            description: The serial number of a device that initiated the transfer.
+            type: string
+            example: "DEV123456"
+         location: 
+            description: Location where the transaction is initiated.
+            type: string
+            example: "state:MO"
+         original_status: 
+            description: Original status of the transfer. One of APPROVED, DECLINED, ERROR, PENDING, UNKNOWN.
+            type: string
+            example: "APPROVED"
+         status: 
+            description: 'Status of the transfer. Values: APPROVED, DECLINED, ERROR, PENDING, REVERSED,
+               CANCELLED.'
+            type: string
+            example: "APPROVED"
+         status_timestamp: 
+            description: Timestamp of when the status was changed to its current value. Details- YYYY-MM-DDTHH:MM:SSZ
+               Valid Values- Refer 'Date And Time Formats'
+            type: string
+            example: "2015-03-18T14:18:55Z"
+         participant: 
+            $ref: '#/definitions/Participant'
+         transfer_priority: 
+            description: 'Type of payment instruction to send. Applicable for non-card only. Values: SIP
+               - Standard immediate payment (default), FDP - Future dated payment'
+            type: string
+            example: "SIP"
+         faster_payments_id: 
+            description: Unique identifier of the payment within the scheme. 42 character string, in which
+               the last five characters are almost always spaces. Applicable for non-card only.
+            type: string
+            example: "YE78126Q54WK2J06M33020170720826608371"
+         payment_uid: 
+            description: Unique identifier of the payment the notification relates to.  Applicable for
+               non-card only.
+            type: string
+            example: "32e2f3f9-dee4-4d10-a470-3dfa01dbf118"
+      xml: 
+         name: transfer
+   P2p_Data: 
+      type: object
+      description: An array containing the transfer response in the transfer
+      properties: 
+         transfer: 
+            description: Transfer array
+            type: array
+            items: 
+               $ref: '#/definitions/Transfer'
+      xml: 
+         name: data
+   Transfers: 
+      type: object
+      description: Response details
+      properties: 
+         resource_type: 
+            description: Type of resource
+            type: string
+            example: "list"
+         item_count: 
+            description: Number of Transactions in the list
+            type: integer
+            format: int64
+            example: "2"
+         data: 
+            $ref: '#/definitions/P2p_Data'
+      xml: 
+         name: transfers
+   PaymentTransfer_wrapper: 
+      description: Contains the details of the request message.
+      properties: 
+         payment_transfer: 
+            $ref: '#/definitions/PaymentTransfer'
+   Transfer_wrapper: 
+      description: Response details
+      properties: 
+         transfer: 
+            $ref: '#/definitions/Transfer'
+   Transfers_wrapper: 
+      description: Response details
+      properties: 
+         transfers: 
+            $ref: '#/definitions/Transfers'
